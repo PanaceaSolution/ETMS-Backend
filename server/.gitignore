@@ -1,0 +1,46 @@
+# Node dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.development
+.env.test
+.env.production
+
+# Database files
+*.sqlite
+*.db
+
+# PostgreSQL dump files
+*.sql
+*.dump
+
+# Coverage / testing
+coverage/
+jest-report/
+
+# Editor configs / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+/src/generated/prisma
