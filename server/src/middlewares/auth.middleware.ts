@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken, TokenPayload } from '../utils/token';
-import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
+import { AppError } from '../utils/AppError';
 
 export interface AuthenticatedRequest extends Request {
   userId?: string;
@@ -8,28 +8,31 @@ export interface AuthenticatedRequest extends Request {
 
 export const protectedRoute = (
   req: AuthenticatedRequest,
-  res: Response,
+  _res: Response,
   next: NextFunction,
-): Response | void => {
+): void => {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader?.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Unauthorized: Token missing' });
+  if (!authHeader?.toLowerCase().startsWith('bearer ')) {
+    return next(new AppError('Unauthorized: Token missing or invalid', 401));
   }
 
   const token = authHeader.split(' ')[1];
+  if (!token) {
+    return next(new AppError('Unauthorized: Token missing', 401));
+  }
 
   try {
     const decoded: TokenPayload = verifyToken(token);
+
+    if (!decoded.userId) {
+      return next(new AppError('Unauthorized: Invalid token payload', 401));
+    }
+
     req.userId = decoded.userId;
-    return next();
+    next();
   } catch (error) {
-    if (error instanceof TokenExpiredError) {
-      return res.status(401).json({ message: 'Unauthorized: Token expired' });
-    }
-    if (error instanceof JsonWebTokenError) {
-      return res.status(401).json({ message: `Unauthorized: ${error.message}` });
-    }
-    return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    // Pass original JWT errors to errorHandler for special handling
+    return next(error);
   }
 };
