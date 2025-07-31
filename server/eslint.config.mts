@@ -14,6 +14,11 @@ export default [
     },
     rules: {
       ...js.configs.recommended.rules,
+      // ✅ Ignore unused variables/args if prefixed with "_"
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
   },
   ...tseslint.configs.recommended, // ✅ this spreads correctly (not as a single object)

@@ -1,12 +1,32 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+import { AppError } from '../utils/AppError';
 
+// 404 handler
 export const notFound = (req: Request, res: Response) => {
-  res.status(404).json({ message: 'Route not found' });
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`,
+  });
 };
 
-export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error('❌ Error:', err.message || err);
-  res.status(err.status || 500).json({
-    message: err.message || 'Internal Server Error',
+// Global error handler
+export const errorHandler: ErrorRequestHandler = (
+  err: unknown,
+  _req: Request,
+  res: Response,
+  _next: NextFunction,
+) => {
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+    });
+  }
+
+  // Handle unexpected errors
+  console.error('❌ Server Error:', err);
+  return res.status(500).json({
+    success: false,
+    message: 'Internal Server Error',
   });
 };

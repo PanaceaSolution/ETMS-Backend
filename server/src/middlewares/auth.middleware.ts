@@ -1,7 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../utils/token';
+import { verifyToken, TokenPayload } from '../utils/token';
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 
-export const protectedRoute = (req: Request, res: Response, next: NextFunction) => {
+export interface AuthenticatedRequest extends Request {
+  userId?: string;
+}
+
+export const protectedRoute = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+): Response | void => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader?.startsWith('Bearer ')) {
@@ -9,11 +18,18 @@ export const protectedRoute = (req: Request, res: Response, next: NextFunction) 
   }
 
   const token = authHeader.split(' ')[1];
+
   try {
-    const decoded = verifyToken(token);
-    (req as any).userId = decoded.userId;
-    next();
+    const decoded: TokenPayload = verifyToken(token);
+    req.userId = decoded.userId;
+    return next();
   } catch (error) {
+    if (error instanceof TokenExpiredError) {
+      return res.status(401).json({ message: 'Unauthorized: Token expired' });
+    }
+    if (error instanceof JsonWebTokenError) {
+      return res.status(401).json({ message: `Unauthorized: ${error.message}` });
+    }
     return res.status(401).json({ message: 'Unauthorized: Invalid token' });
   }
 };
