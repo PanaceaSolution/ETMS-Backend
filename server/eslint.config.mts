@@ -14,13 +14,17 @@ export default [
     },
     rules: {
       ...js.configs.recommended.rules,
-      // ✅ Ignore unused variables/args if prefixed with "_"
+
+      // ✅ Allow explicit any
+      '@typescript-eslint/no-explicit-any': 'off',
+
+      // ✅ Ignore unused vars/args if prefixed with "_"
       '@typescript-eslint/no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
     },
   },
-  ...tseslint.configs.recommended, // ✅ this spreads correctly (not as a single object)
-  pluginPrettierRecommended, // ✅ enables Prettier in ESLint v9 flat config
+  ...tseslint.configs.recommended,
+  pluginPrettierRecommended,
 ];

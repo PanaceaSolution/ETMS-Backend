@@ -22,17 +22,11 @@ export const protectedRoute = (
     return next(new AppError('Unauthorized: Token missing', 401));
   }
 
-  try {
-    const decoded: TokenPayload = verifyToken(token);
-
-    if (!decoded.userId) {
-      return next(new AppError('Unauthorized: Invalid token payload', 401));
-    }
-
-    req.userId = decoded.userId;
-    next();
-  } catch (error) {
-    // Pass original JWT errors to errorHandler for special handling
-    return next(error);
+  const decoded: TokenPayload = verifyToken(token);
+  if (!decoded.userId) {
+    return next(new AppError('Unauthorized: Invalid token payload', 401));
   }
+
+  req.userId = decoded.userId;
+  next();
 };

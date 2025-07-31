@@ -1,8 +1,8 @@
-import { Router } from 'express';
 import { register, listUsers, loginUser, getDashboard } from '../controllers/user.controller';
 import { protectedRoute } from '../../../middlewares/auth.middleware';
+import { AsyncRouter } from '../../../utils/AsyncRouter';
 
-const userRouter = Router();
+const userRouter = AsyncRouter();
 
 userRouter.post('/register', register);
 userRouter.post('/login', loginUser);
