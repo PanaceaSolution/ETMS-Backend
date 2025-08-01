@@ -1,5 +1,6 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { JWT_SECRET } from '@config/env';
+import { AppError } from '@utils/AppError';
 
 const EXPIRES_IN = '1d';
 const SECRET = JWT_SECRET;
@@ -21,11 +22,11 @@ export const verifyToken = (token: string): TokenPayload => {
     return jwt.verify(token, SECRET!) as TokenPayload;
   } catch (error) {
     if (error instanceof TokenExpiredError) {
-      throw new Error('Token has expired');
+      throw new AppError('Token has expired', 401, 'TokenExpiredError');
     }
     if (error instanceof JsonWebTokenError) {
-      throw new Error(`Invalid token: ${error.message}`);
+      throw new AppError(`Invalid token: ${error.message}`, 401, 'JsonWebTokenError');
     }
-    throw new Error('Authentication failed');
+    throw new AppError('Authentication failed', 401, 'AuthError');
   }
 };

@@ -4,7 +4,7 @@ import { KnownErrors } from '#types/error';
 
 // 404 handler
 export const notFound = (req: Request, _res: Response, next: NextFunction) => {
-  const error = new AppError(`Route ${req.originalUrl} not found`, 404);
+  const error = new AppError(`Route ${req.originalUrl} not found`, 404, 'NotFoundError');
   next(error);
 };
 
