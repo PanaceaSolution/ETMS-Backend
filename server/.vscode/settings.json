@@ -1,0 +1,26 @@
+{
+  // Use Prettier as default formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Format on save
+  "editor.formatOnSave": true,
+
+  // ESLint auto-fix on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "source.fixAll.format": "always"
+  },
+
+  // Run ESLint on TS/JS files
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // Exclude node_modules from linting
+  "eslint.workingDirectories": [
+    {"mode": "auto"}
+  ]
+}

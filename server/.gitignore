@@ -33,14 +33,4 @@ Thumbs.db
 *.sql
 *.dump
 
-# Coverage / testing
-coverage/
-jest-report/
-
-# Editor configs / IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
 /src/generated/prisma
