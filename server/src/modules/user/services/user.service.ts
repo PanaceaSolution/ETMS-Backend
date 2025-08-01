@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-import prisma from '../../../config/prisma';
-import { generateToken } from '../../../utils/token';
+import prisma from '@config/prisma';
+import { generateToken } from '@utils/token';
 
 export const checkUserExists = async (username: string) => {
   return prisma.user.findUnique({ where: { username } });

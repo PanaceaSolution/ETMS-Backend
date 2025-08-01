@@ -1,10 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-
-import userRouter from './modules/user/routes/user.route';
-import { CLIENT_URL } from './config/env';
-import { logger } from './middlewares/logger';
-import { errorHandler, notFound } from './middlewares/error.middleware';
+import userRouter from '@user/routes/user.route';
+import { CLIENT_URL } from '@config/env';
+import { logger } from '@middlewares/logger';
+import { errorHandler, notFound } from '@middlewares/error.middleware';
 
 const app = express();
 

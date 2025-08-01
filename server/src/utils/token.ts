@@ -1,9 +1,9 @@
-import jwt, { JwtPayload, JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
-import { JWT_SECRET } from '../config/env';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { JWT_SECRET } from '@config/env';
 
 const EXPIRES_IN = '1d';
 const SECRET = JWT_SECRET;
-
+const { JsonWebTokenError, TokenExpiredError } = jwt;
 if (!SECRET) {
   throw new Error('❌ JWT_SECRET is not defined in environment variables');
 }

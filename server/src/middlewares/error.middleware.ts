@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
-import { AppError } from '../utils/AppError';
-import { KnownErrors } from '../types/error';
+import { AppError } from '@utils/AppError';
+import { KnownErrors } from '#types/error';
 
 // 404 handler
 export const notFound = (req: Request, _res: Response, next: NextFunction) => {

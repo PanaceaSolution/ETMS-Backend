@@ -1,5 +1,5 @@
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
-import { AppError } from '../utils/AppError';
+import { AppError } from '@utils/AppError';
 
 // Extend Express Error
 export type KnownErrors =

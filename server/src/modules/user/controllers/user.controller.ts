@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import * as userService from '../services/user.service';
-import { AppError } from '../../../utils/AppError';
-import { AuthenticatedRequest } from '../../../middlewares/auth.middleware';
+import * as userService from '@user/services/user.service';
+import { AppError } from '@utils/AppError';
+import { AuthenticatedRequest } from '@middlewares/auth.middleware';
 
 export const register = async (req: AuthenticatedRequest, res: Response) => {
   const { username, password } = req.body;

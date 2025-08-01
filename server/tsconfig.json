@@ -1,16 +1,29 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "lib": ["ES2020"],
-    "module": "commonjs",
+    "target": "es2022",
+    "lib": ["ES2022"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "rootDir": "./src",
     "outDir": "./dist",
-    "moduleResolution": "node",
+    "baseUrl": ".",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@middlewares/*": ["src/middlewares/*"],
+      "@config/*": ["src/config/*"],
+      "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@user/*": ["src/modules/user/*"],
+      "@user/services/*": ["src/modules/user/services/*"],
+      "@user/routes/*": ["src/modules/user/routes/*"],
+      "@user/controllers/*": ["src/modules/user/controllers/*"]
+    },
+    // 👇 this makes TS treat imports without extension correctly
+    "allowImportingTsExtensions": false
   },
   // ✅ only compile source code
   "include": ["src/**/*"],

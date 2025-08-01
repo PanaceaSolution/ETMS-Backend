@@ -1,6 +1,6 @@
 import app from './app';
-import { PORT } from './config/env';
-import prisma from './config/prisma';
+import { PORT } from '@config/env';
+import prisma from '@config/prisma';
 
 async function startServer() {
   try {

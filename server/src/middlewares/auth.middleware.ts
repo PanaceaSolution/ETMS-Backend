@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken, TokenPayload } from '../utils/token';
-import { AppError } from '../utils/AppError';
+import { verifyToken, TokenPayload } from '@utils/token';
+import { AppError } from '@utils/AppError';
 
 export interface AuthenticatedRequest extends Request {
   userId?: string;
