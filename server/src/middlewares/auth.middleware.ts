@@ -1,10 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import { verifyToken, TokenPayload } from '@utils/token';
 import { AppError } from '@utils/AppError';
-
-export interface AuthenticatedRequest extends Request {
-  userId?: string;
-}
+import { AuthenticatedRequest } from '#types/auth';
 
 export const protectedRoute = (
   req: AuthenticatedRequest,

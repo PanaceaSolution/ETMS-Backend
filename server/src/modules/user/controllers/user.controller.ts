@@ -1,30 +1,31 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import * as userService from '@user/services/user.service';
 import { AppError } from '@utils/AppError';
-import { AuthenticatedRequest } from '@middlewares/auth.middleware';
+import { AuthenticatedRequest } from '#types/auth';
+import { CreateUserDTO, UserApiResponse } from '@user/types/user.type';
 
-export const register = async (req: AuthenticatedRequest, res: Response) => {
-  const { username, password } = req.body;
-  const user = await userService.createUser(username, password);
+export const register = async (req: Request, res: Response<UserApiResponse>) => {
+  const { username, password } = req.body as CreateUserDTO;
+  const user = await userService.createUser({ username, password });
   res.status(201).json({
     success: true,
     message: 'User registered successfully',
-    user,
+    data: user,
   });
 };
 
-export const listUsers = async (_req: AuthenticatedRequest, res: Response) => {
+export const listUsers = async (_req: Request, res: Response<UserApiResponse>) => {
   const users = await userService.getAllUsers();
-  res.json({ success: true, users });
+  res.json({ success: true, message: 'User fetched', data: users });
 };
 
-export const loginUser = async (req: AuthenticatedRequest, res: Response) => {
-  const { username, password } = req.body;
+export const loginUser = async (req: Request, res: Response) => {
+  const { username, password } = req.body as CreateUserDTO;
   const data = await userService.login(username, password);
-  res.json({ success: true, ...data });
+  res.json({ success: true, message: 'Login successful', ...data });
 };
 
-export const getDashboard = async (req: AuthenticatedRequest, res: Response) => {
+export const getDashboard = async (req: AuthenticatedRequest, res: Response<UserApiResponse>) => {
   if (!req.userId) {
     throw new AppError('Unauthorized', 401);
   }
@@ -37,6 +38,6 @@ export const getDashboard = async (req: AuthenticatedRequest, res: Response) => 
   res.json({
     success: true,
     message: 'Authenticated user retrieved successfully',
-    user,
+    data: user,
   });
 };
