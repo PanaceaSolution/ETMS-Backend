@@ -4,6 +4,8 @@ import tseslint from 'typescript-eslint';
 import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default [
+  ...tseslint.configs.recommended,
+
   {
     files: ['**/*.{js,ts}'],
     ignores: ['dist/**', 'node_modules/**'],
@@ -25,6 +27,5 @@ export default [
       ],
     },
   },
-  ...tseslint.configs.recommended,
   pluginPrettierRecommended,
 ];
